@@ -12,6 +12,8 @@ internal static class ApplicationHost
         {
             if (args.Length > 0 && args[0].Equals("protect-secret", StringComparison.OrdinalIgnoreCase)) return ProtectSecret(args.Skip(1).ToArray());
             var configPath = GetOption(args, "--config") ?? Path.Combine(AppContext.BaseDirectory, DefaultConfigFile);
+            if (args.Length > 0 && args[0].Equals("setup", StringComparison.OrdinalIgnoreCase))
+                return SetupWizard.CreateConfiguration(Path.GetFullPath(configPath)) ? 0 : 2;
             var configuration = await LoadConfigurationAsync(configPath);
             var secrets = new SecretStore(Path.Combine(Path.GetDirectoryName(Path.GetFullPath(configPath))!, configuration.SecretsFile));
             var results = await new CheckRunner(secrets, new NotificationDispatcher(configuration.Notifications, secrets)).RunAsync(configuration.Checks.Where(c => c.Enabled));

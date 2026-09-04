@@ -18,7 +18,7 @@
       "sharePoint": {
         "siteUrl": "https://sharepoint.company.local/sites/Operations",
         "listTitle": "Daily Operations",
-        "dateField": "Created",
+        "dateField": "Date",
         "day": "Today",
         "authentication": { "mode": "WindowsSso" }
       }

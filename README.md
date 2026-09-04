@@ -1,6 +1,6 @@
 # ATNotifier
 
-Windows .NET notifier for scheduled checks against internal sites. It currently includes a SharePoint Subscription Edition list check: it succeeds when at least one list item exists for today or the previous day, using a selected date field (default: `Created`). A failed check or connection error can send email, show a Windows dialog, or do both.
+Windows .NET notifier for scheduled checks against internal sites. It currently includes a SharePoint Subscription Edition list check: it succeeds when at least one list item exists for today or the previous day, using a selected date field (default: `Date`). A failed check or connection error can send email, show a Windows dialog, or do both.
 
 ## Configure
 
@@ -17,6 +17,8 @@ Windows .NET notifier for scheduled checks against internal sites. It currently 
 4. For SMTP using a username/password, set `username` and `passwordSecretName` under `notifications.email`, then use the same `protect-secret` command for the SMTP password. If no SMTP username is given, the application uses the task's Windows credentials for SMTP.
 
 The `notify` setting on each check accepts `Email`, `Window`, `Both`, or `None`. A window notification requires the task to run only while that user is logged on. Email still works without an interactive desktop.
+
+To change settings later without editing a file, run `ATNotifier.exe setup`. The setup window asks for the SharePoint date field's internal name; use `Date` for the requested list field.
 
 ## Build and run
 
