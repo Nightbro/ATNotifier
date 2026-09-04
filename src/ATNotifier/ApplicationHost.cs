@@ -17,7 +17,12 @@ internal static class ApplicationHost
             var results = await new CheckRunner(secrets, new NotificationDispatcher(configuration.Notifications, secrets)).RunAsync(configuration.Checks.Where(c => c.Enabled));
             return results.Any(r => r.Outcome != CheckOutcome.Passed) ? 1 : 0;
         }
-        catch (Exception exception) { Console.Error.WriteLine($"Fatal error: {exception.Message}"); return 2; }
+        catch (Exception exception)
+        {
+            Console.Error.WriteLine($"Fatal error: {exception.Message}");
+            WindowsAlert.ShowFailure("ATNotifier failed to start", exception.Message);
+            return 2;
+        }
     }
     private static int ProtectSecret(string[] args)
     {

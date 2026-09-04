@@ -1,6 +1,5 @@
 using System.Net;
 using System.Net.Mail;
-using System.Windows.Forms;
 
 namespace ATNotifier;
 
@@ -9,7 +8,7 @@ public sealed class NotificationDispatcher(NotificationSettings settings, Secret
     public async Task SendAsync(NotificationChannel channels, CheckResult result)
     {
         if (channels.HasFlag(NotificationChannel.Email)) await SendEmailAsync(result);
-        if (channels.HasFlag(NotificationChannel.Window)) MessageBox.Show(result.Message, $"ATNotifier: {result.Name}", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        if (channels.HasFlag(NotificationChannel.Window)) WindowsAlert.ShowFailure($"ATNotifier: {result.Name}", result.Message);
     }
 
     private async Task SendEmailAsync(CheckResult result)
