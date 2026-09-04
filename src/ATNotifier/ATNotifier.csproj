@@ -8,4 +8,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <!-- Local runtime configuration: deliberately ignored by Git, copied when present. -->
+  <ItemGroup>
+    <None Include="..\..\atnotifier.json"
+          Link="atnotifier.json"
+          CopyToOutputDirectory="PreserveNewest"
+          CopyToPublishDirectory="PreserveNewest"
+          Condition="Exists('..\..\atnotifier.json')" />
+  </ItemGroup>
+
 </Project>
