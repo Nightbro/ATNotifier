@@ -33,11 +33,9 @@ internal static class ApplicationHost
         if (!File.Exists(path))
         {
             var fullConfigPath = Path.GetFullPath(path);
-            var samplePath = Path.Combine(Path.GetDirectoryName(fullConfigPath)!, "atnotifier.sample.json");
-            if (Path.GetFileName(path).Equals(DefaultConfigFile, StringComparison.OrdinalIgnoreCase) && File.Exists(samplePath))
+            if (Path.GetFileName(path).Equals(DefaultConfigFile, StringComparison.OrdinalIgnoreCase))
             {
-                File.Copy(samplePath, fullConfigPath);
-                throw new InvalidOperationException($"Created {fullConfigPath} from the sample. Update its SharePoint and email values, then run again.");
+                if (!SetupWizard.CreateConfiguration(fullConfigPath)) throw new InvalidOperationException("Initial setup was cancelled.");
             }
             throw new FileNotFoundException("Configuration file was not found.", fullConfigPath);
         }
