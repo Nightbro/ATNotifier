@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -10,6 +10,10 @@
 
   <!-- Local runtime configuration: deliberately ignored by Git, copied when present. -->
   <ItemGroup>
+    <None Include="..\..\atnotifier.sample.json"
+          Link="atnotifier.sample.json"
+          CopyToOutputDirectory="PreserveNewest"
+          CopyToPublishDirectory="PreserveNewest" />
     <None Include="..\..\atnotifier.json"
           Link="atnotifier.json"
           CopyToOutputDirectory="PreserveNewest"

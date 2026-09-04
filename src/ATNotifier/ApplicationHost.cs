@@ -11,7 +11,7 @@ internal static class ApplicationHost
         try
         {
             if (args.Length > 0 && args[0].Equals("protect-secret", StringComparison.OrdinalIgnoreCase)) return ProtectSecret(args.Skip(1).ToArray());
-            var configPath = GetOption(args, "--config") ?? DefaultConfigFile;
+            var configPath = GetOption(args, "--config") ?? Path.Combine(AppContext.BaseDirectory, DefaultConfigFile);
             var configuration = await LoadConfigurationAsync(configPath);
             var secrets = new SecretStore(Path.Combine(Path.GetDirectoryName(Path.GetFullPath(configPath))!, configuration.SecretsFile));
             var results = await new CheckRunner(secrets, new NotificationDispatcher(configuration.Notifications, secrets)).RunAsync(configuration.Checks.Where(c => c.Enabled));
@@ -30,7 +30,17 @@ internal static class ApplicationHost
     }
     private static async Task<NotifierConfiguration> LoadConfigurationAsync(string path)
     {
-        if (!File.Exists(path)) throw new FileNotFoundException("Configuration file was not found.", Path.GetFullPath(path));
+        if (!File.Exists(path))
+        {
+            var fullConfigPath = Path.GetFullPath(path);
+            var samplePath = Path.Combine(Path.GetDirectoryName(fullConfigPath)!, "atnotifier.sample.json");
+            if (Path.GetFileName(path).Equals(DefaultConfigFile, StringComparison.OrdinalIgnoreCase) && File.Exists(samplePath))
+            {
+                File.Copy(samplePath, fullConfigPath);
+                throw new InvalidOperationException($"Created {fullConfigPath} from the sample. Update its SharePoint and email values, then run again.");
+            }
+            throw new FileNotFoundException("Configuration file was not found.", fullConfigPath);
+        }
         await using var stream = File.OpenRead(path);
         return await JsonSerializer.DeserializeAsync<NotifierConfiguration>(stream, JsonOptions) ?? throw new InvalidOperationException("Configuration file is empty or invalid.");
     }

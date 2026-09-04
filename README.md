@@ -20,7 +20,7 @@ The `notify` setting on each check accepts `Email`, `Window`, `Both`, or `None`.
 
 ## Build and run
 
-On a workstation with the .NET 8 SDK, publish a portable self-contained Windows build:
+On a workstation with the .NET 9 SDK, publish a portable self-contained Windows build:
 
 ```powershell
 dotnet publish .\src\ATNotifier\ATNotifier.csproj -c Release -r win-x64 --self-contained true -o .\publish
@@ -29,7 +29,7 @@ Set-Location .\publish
 .\ATNotifier.exe
 ```
 
-Copy the resulting `publish` folder to the destination computer. It does not need the source repository, a repository client, or a separately installed .NET runtime.
+Copy the resulting `publish` folder to the destination computer. It does not need the source repository, a repository client, or a separately installed .NET runtime. Without `--config`, the application reads `atnotifier.json` beside `ATNotifier.exe`.
 
 Use `--config <path>` when the configuration file is elsewhere. The process returns `0` when every check passes, `1` when a check fails or errors, and `2` for a startup/configuration error.
 
