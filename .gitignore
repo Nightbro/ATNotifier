@@ -1,0 +1,5 @@
+bin/
+obj/
+atnotifier.json
+atnotifier.secrets.json
+publish-test/

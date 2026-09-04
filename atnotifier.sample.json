@@ -1,0 +1,27 @@
+{
+  "secretsFile": "atnotifier.secrets.json",
+  "notifications": {
+    "email": {
+      "host": "smtp.company.local",
+      "port": 25,
+      "enableSsl": false,
+      "from": "atnotifier@company.local",
+      "to": [ "you@company.local" ]
+    }
+  },
+  "checks": [
+    {
+      "name": "Daily operations list",
+      "enabled": true,
+      "kind": "SharePointListHasItems",
+      "notify": "Both",
+      "sharePoint": {
+        "siteUrl": "https://sharepoint.company.local/sites/Operations",
+        "listTitle": "Daily Operations",
+        "dateField": "Created",
+        "day": "Today",
+        "authentication": { "mode": "WindowsSso" }
+      }
+    }
+  ]
+}
